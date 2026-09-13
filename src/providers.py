@@ -139,6 +139,7 @@ class OpenAIProvider(BaseLLMProvider):
     """OpenAI Provider (Native Tool Calling với OpenAI SDK)"""
     def __init__(self, api_key: str = None, model: str = None):
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self.base_url = os.getenv("OPENAI_BASE_URL")
         self.model_name = model or os.getenv("LLM_MODEL") or "gpt-4o-mini"
 
     def generate(self, prompt: str, system_prompt: str = "") -> str:
@@ -146,7 +147,10 @@ class OpenAIProvider(BaseLLMProvider):
             return "[OpenAI Error]: Chưa cấu hình OPENAI_API_KEY trong file .env! Đang sử dụng chế độ Mock."
         try:
             from openai import OpenAI
-            client = OpenAI(api_key=self.api_key)
+            client_options = {"api_key": self.api_key}
+            if self.base_url:
+                client_options["base_url"] = self.base_url
+            client = OpenAI(**client_options)
             messages = []
             if system_prompt:
                 messages.append({"role": "system", "content": system_prompt})
@@ -163,7 +167,10 @@ class OpenAIProvider(BaseLLMProvider):
 
         try:
             from openai import OpenAI
-            client = OpenAI(api_key=self.api_key)
+            client_options = {"api_key": self.api_key}
+            if self.base_url:
+                client_options["base_url"] = self.base_url
+            client = OpenAI(**client_options)
 
             tools = []
             for tool in tools_schema:

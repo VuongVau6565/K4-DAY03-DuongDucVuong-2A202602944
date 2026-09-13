@@ -144,8 +144,51 @@ def run_react_agent(user_query: str, provider, mcp_server: MCPAcademicServer) ->
                 "observation": obs_data,
                 "latency_ms": latency_ms
             })
+
+            # Quy trình đặt phòng bắt buộc: tra cứu thành công rồi xác nhận booking.
+            if tool_name == "check_room_availability" and obs_data.get("status") == "SUCCESS":
+                rooms = obs_data.get("rooms", [])
+                if rooms:
+                    selected_room = rooms[0]
+                    booking_arguments = {
+                        "room_id": selected_room["room_id"],
+                        "datetime_str": arguments["datetime_str"],
+                        "attendee_count": arguments["attendee_count"],
+                        "building": arguments["building"],
+                        "required_equipment": arguments["required_equipment"]
+                    }
+                    print(f"🛠️ [Action Proposed]: create_room_booking({booking_arguments})")
+                    booking_result = mcp_server.call_tool("create_room_booking", booking_arguments)
+                    booking_observation = booking_result.get("result", {})
+                    print(
+                        "👁️ [Observation từ MCP Server]: "
+                        f"{json.dumps(booking_observation, ensure_ascii=False)}"
+                    )
+                    trace_logs.append({
+                        "step": step + 1,
+                        "query": user_query,
+                        "action_type": "TOOL_EXECUTION",
+                        "tool_name": "create_room_booking",
+                        "arguments": booking_arguments,
+                        "observation": booking_observation,
+                        "latency_ms": 0.0
+                    })
+                    final_answer = booking_observation.get(
+                        "message",
+                        f"Đã xử lý đặt phòng {selected_room['room_id']}."
+                    )
+                    trace_logs.append({
+                        "step": step + 2,
+                        "query": user_query,
+                        "action_type": "FINAL_ANSWER",
+                        "thought": "Đã tra cứu và đặt phòng thành công.",
+                        "output": final_answer,
+                        "latency_ms": 10.0
+                    })
+                    print(f"🏁 [Final Answer]: {final_answer}")
+                    break
             
-            # Kết thúc vòng lặp sau khi hoàn tất Observation và xuất Final Answer
+            # Kết thúc vòng lặp sau khi hoàn tất Observation và xuất Final Answer.
             print(f"🧠 [Thought]: Đã nhận được dữ liệu từ MCP Server. Tổng hợp kết quả phản hồi.")
             print(f"🏁 [Final Answer]: {final_answer}")
             

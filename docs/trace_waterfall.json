@@ -3,9 +3,9 @@
     "step": 1,
     "query": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
     "action_type": "FINAL_ANSWER",
-    "thought": "Câu hỏi chung về quy chế học vụ, trả lời trực tiếp không cần gọi Tool.",
-    "output": "[Mock Agent Response]: Xin chào! Quy chế học vụ VinUni yêu cầu sinh viên tích lũy tối thiểu 120 tín chỉ và duy trì GPA trên 2.0 để tốt nghiệp.",
-    "latency_ms": 2845.93
+    "thought": "OpenAI phản hồi trực tiếp bằng văn bản (không cần gọi công cụ).",
+    "output": "Quy chế học vụ cơ bản của Đại học VinUni thường bao gồm các nội dung chính như sau:\n\n1. **Chế độ học tập**: Bao gồm quy định về thời gian học, các học phần bắt buộc và tự chọn, cùng với quy định về điểm số và hệ thống tín chỉ.\n\n2. **Đánh giá và thi cử**: Quy định về cách thức đánh giá sinh viên, các hình thức thi (trắc nghiệm, tự luận, thuyết trình...) và tiêu chí chấm điểm.\n\n3. **Điều kiện tốt nghiệp**: Các yêu cầu cần đạt để sinh viên có thể tốt nghiệp, bao gồm số tín chỉ, các học phần cần hoàn thành và các bài luận thực tập (nếu có).\n\n4. **Kỷ luật và quy định về hành vi**: Các quy tắc về hành vi của sinh viên trong trường, bao gồm quy định về gian lận trong học tập, các biện pháp xử lý vi phạm.\n\n5. **Hỗ trợ học vụ**: Thông tin về việc hỗ trợ sinh viên trong quá trình học tập, từ việc tư vấn học tập đến các dịch vụ hỗ trợ khác.\n\nĐể có thông tin chi tiết về quy chế học vụ, bạn có thể tham khảo trên trang web chính thức của Đại học VinUni hoặc liên hệ với bộ phận quản lý học vụ của trường.",
+    "latency_ms": 8274.08
   },
   {
     "step": 1,
@@ -15,15 +15,210 @@
     "arguments": {
       "student_id": "SV2026001"
     },
-    "observation": {},
-    "latency_ms": 799.12
+    "observation": {
+      "status": "SUCCESS",
+      "student_id": "SV2026001",
+      "data": {
+        "full_name": "Nguyễn Văn An",
+        "class": "AI-K4",
+        "gpa": 3.85,
+        "email": "an.nv@vinuni.edu.vn",
+        "status": "Đang học",
+        "advisor": "PGS.TS Nguyễn Văn A"
+      }
+    },
+    "latency_ms": 921.25
   },
   {
     "step": 2,
     "query": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
     "action_type": "FINAL_ANSWER",
     "thought": "Tổng hợp kết quả từ MCP Server thành công.",
-    "output": "Chưa thể trả lời chi tiết do chưa nhận được dữ liệu từ MCP Server (hãy hoàn thành TODO 2.1).",
+    "output": "Kết quả tra cứu cho sinh viên SV2026001 (Nguyễn Văn An): Lớp AI-K4, GPA: 3.85, Email: an.nv@vinuni.edu.vn, Trạng thái: Đang học, Cố vấn: PGS.TS Nguyễn Văn A.",
+    "latency_ms": 10.0
+  },
+  {
+    "step": 1,
+    "query": "Đặt phòng họp cho 8 người vào lúc 14:00 đến 15:30 ngày 20/09/2026 tại tòa nhà Cơ sở chính. Phòng cần có máy chiếu và bảng trắng.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "check_room_availability",
+    "arguments": {
+      "datetime_str": "14:00 đến 15:30 ngày 20/09/2026",
+      "attendee_count": 8,
+      "building": "Cơ sở chính",
+      "required_equipment": [
+        "máy chiếu",
+        "bảng trắng"
+      ]
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "datetime": "14:00 đến 15:30 ngày 20/09/2026",
+      "rooms": [
+        {
+          "room_id": "C-A101",
+          "building": "Cơ sở chính",
+          "capacity": 10,
+          "equipment": [
+            "máy chiếu",
+            "bảng trắng"
+          ]
+        },
+        {
+          "room_id": "C-A202",
+          "building": "Cơ sở chính",
+          "capacity": 16,
+          "equipment": [
+            "máy chiếu",
+            "bảng trắng",
+            "hội nghị trực tuyến"
+          ]
+        }
+      ]
+    },
+    "latency_ms": 1862.83
+  },
+  {
+    "step": 2,
+    "query": "Đặt phòng họp cho 8 người vào lúc 14:00 đến 15:30 ngày 20/09/2026 tại tòa nhà Cơ sở chính. Phòng cần có máy chiếu và bảng trắng.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "create_room_booking",
+    "arguments": {
+      "room_id": "C-A101",
+      "datetime_str": "14:00 đến 15:30 ngày 20/09/2026",
+      "attendee_count": 8,
+      "building": "Cơ sở chính",
+      "required_equipment": [
+        "máy chiếu",
+        "bảng trắng"
+      ]
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "booking_id": "RB-C-A101-99",
+      "room_id": "C-A101",
+      "building": "Cơ sở chính",
+      "datetime": "14:00 đến 15:30 ngày 20/09/2026",
+      "attendee_count": 8,
+      "equipment": [
+        "máy chiếu",
+        "bảng trắng"
+      ],
+      "message": "Đặt phòng C-A101 thành công vào 14:00 đến 15:30 ngày 20/09/2026 cho 8 người."
+    },
+    "latency_ms": 0.0
+  },
+  {
+    "step": 3,
+    "query": "Đặt phòng họp cho 8 người vào lúc 14:00 đến 15:30 ngày 20/09/2026 tại tòa nhà Cơ sở chính. Phòng cần có máy chiếu và bảng trắng.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Đã tra cứu và đặt phòng thành công.",
+    "output": "Đặt phòng C-A101 thành công vào 14:00 đến 15:30 ngày 20/09/2026 cho 8 người.",
+    "latency_ms": 10.0
+  },
+  {
+    "step": 1,
+    "query": "Tôi cần tổ chức cuộc họp nhóm 12 người vào lúc 09:00 đến 11:00 ngày 22/09/2026 tại tòa nhà Cơ sở chính, cần máy chiếu. Hãy tìm phòng phù hợp còn trống rồi đặt phòng giúp tôi.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "check_room_availability",
+    "arguments": {
+      "datetime_str": "09:00 đến 11:00 ngày 22/09/2026",
+      "attendee_count": 12,
+      "building": "Cơ sở chính",
+      "required_equipment": [
+        "máy chiếu"
+      ]
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "datetime": "09:00 đến 11:00 ngày 22/09/2026",
+      "rooms": [
+        {
+          "room_id": "C-A202",
+          "building": "Cơ sở chính",
+          "capacity": 16,
+          "equipment": [
+            "máy chiếu",
+            "bảng trắng",
+            "hội nghị trực tuyến"
+          ]
+        },
+        {
+          "room_id": "C-B301",
+          "building": "Cơ sở chính",
+          "capacity": 40,
+          "equipment": [
+            "máy chiếu",
+            "hội nghị trực tuyến"
+          ]
+        }
+      ]
+    },
+    "latency_ms": 2748.62
+  },
+  {
+    "step": 2,
+    "query": "Tôi cần tổ chức cuộc họp nhóm 12 người vào lúc 09:00 đến 11:00 ngày 22/09/2026 tại tòa nhà Cơ sở chính, cần máy chiếu. Hãy tìm phòng phù hợp còn trống rồi đặt phòng giúp tôi.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "create_room_booking",
+    "arguments": {
+      "room_id": "C-A202",
+      "datetime_str": "09:00 đến 11:00 ngày 22/09/2026",
+      "attendee_count": 12,
+      "building": "Cơ sở chính",
+      "required_equipment": [
+        "máy chiếu"
+      ]
+    },
+    "observation": {
+      "status": "SUCCESS",
+      "booking_id": "RB-C-A202-99",
+      "room_id": "C-A202",
+      "building": "Cơ sở chính",
+      "datetime": "09:00 đến 11:00 ngày 22/09/2026",
+      "attendee_count": 12,
+      "equipment": [
+        "máy chiếu"
+      ],
+      "message": "Đặt phòng C-A202 thành công vào 09:00 đến 11:00 ngày 22/09/2026 cho 12 người."
+    },
+    "latency_ms": 0.0
+  },
+  {
+    "step": 3,
+    "query": "Tôi cần tổ chức cuộc họp nhóm 12 người vào lúc 09:00 đến 11:00 ngày 22/09/2026 tại tòa nhà Cơ sở chính, cần máy chiếu. Hãy tìm phòng phù hợp còn trống rồi đặt phòng giúp tôi.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Đã tra cứu và đặt phòng thành công.",
+    "output": "Đặt phòng C-A202 thành công vào 09:00 đến 11:00 ngày 22/09/2026 cho 12 người.",
+    "latency_ms": 10.0
+  },
+  {
+    "step": 1,
+    "query": "Hãy tìm và đặt một phòng họp cho 50 người vào lúc 18:00 đến 20:00 ngày 25/09/2026 tại tòa nhà Cơ sở chính, có máy chiếu và hệ thống hội nghị trực tuyến.",
+    "action_type": "TOOL_EXECUTION",
+    "tool_name": "check_room_availability",
+    "arguments": {
+      "datetime_str": "18:00 đến 20:00 ngày 25/09/2026",
+      "attendee_count": 50,
+      "building": "Cơ sở chính",
+      "required_equipment": [
+        "máy chiếu",
+        "hệ thống hội nghị trực tuyến"
+      ]
+    },
+    "observation": {
+      "status": "NOT_FOUND",
+      "message": "Không tìm thấy phòng họp phù hợp với thời gian, số người, tòa nhà và thiết bị đã yêu cầu.",
+      "datetime": "18:00 đến 20:00 ngày 25/09/2026"
+    },
+    "latency_ms": 1209.33
+  },
+  {
+    "step": 2,
+    "query": "Hãy tìm và đặt một phòng họp cho 50 người vào lúc 18:00 đến 20:00 ngày 25/09/2026 tại tòa nhà Cơ sở chính, có máy chiếu và hệ thống hội nghị trực tuyến.",
+    "action_type": "FINAL_ANSWER",
+    "thought": "Tổng hợp kết quả từ MCP Server thành công.",
+    "output": "Không tìm thấy phòng họp phù hợp với thời gian, số người, tòa nhà và thiết bị đã yêu cầu.",
     "latency_ms": 10.0
   }
 ]

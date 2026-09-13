@@ -1,0 +1,37 @@
+[
+  {
+    "id": "TC01",
+    "type": "direct_query",
+    "question": "Chào bạn, bạn có thể giới thiệu quy chế học vụ cơ bản của Đại học VinUni không?",
+    "expected_behavior": "Chatbot trả lời trực tiếp từ System Prompt, không cần gọi bất kỳ Tool nào.",
+    "complexity": "Low"
+  },
+  {
+    "id": "TC02",
+    "type": "single_tool_query",
+    "question": "Hãy tra cứu thông tin học vụ của sinh viên SV2026001.",
+    "expected_behavior": "Agent nhận diện nhu cầu tra cứu, tự động phát sinh Tool Call 'academic_query' với mã SV2026001.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC03",
+    "type": "room_booking",
+    "question": "Đặt phòng họp cho 8 người vào lúc 14:00 đến 15:30 ngày 20/09/2026 tại tòa nhà Cơ sở chính. Phòng cần có máy chiếu và bảng trắng.",
+    "expected_behavior": "Agent thu thập đủ thông tin và tự động phát sinh Tool Call 'create_room_booking' với thời gian, số người, địa điểm và thiết bị yêu cầu chính xác.",
+    "complexity": "Medium"
+  },
+  {
+    "id": "TC04",
+    "type": "multi_step_reasoning",
+    "question": "Tôi cần tổ chức cuộc họp nhóm 12 người vào lúc 09:00 đến 11:00 ngày 22/09/2026 tại tòa nhà Cơ sở chính, cần máy chiếu. Hãy tìm phòng phù hợp còn trống rồi đặt phòng giúp tôi.",
+    "expected_behavior": "Agent thực hiện chuỗi suy luận ReAct: gọi Tool 'check_room_availability' để tìm phòng đủ sức chứa và còn trống, sau đó gọi Tool 'create_room_booking' để xác nhận đặt phòng được chọn.",
+    "complexity": "High"
+  },
+  {
+    "id": "TC05",
+    "type": "edge_case_handling",
+    "question": "Hãy tìm và đặt một phòng họp cho 50 người vào lúc 18:00 đến 20:00 ngày 25/09/2026 tại tòa nhà Cơ sở chính, có máy chiếu và hệ thống hội nghị trực tuyến.",
+    "expected_behavior": "Nếu Tool 'check_room_availability' trả về 'NOT_FOUND' hoặc không có phòng phù hợp, Agent thông báo rõ không tìm thấy phòng, không tự bịa tên phòng và đề xuất người dùng đổi thời gian, địa điểm hoặc yêu cầu.",
+    "complexity": "Medium"
+  }
+]
